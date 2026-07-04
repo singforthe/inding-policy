@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>INDING - K-Beauty App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // 모바일 장치 감지
+      const isAndroid = /Android/i.test(navigator.userAgent);
+      const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+      if (isAndroid) {
+        // 안드로이드 기기인 경우
+        // 플레이 스토어로 이동하기 전에 앱 열기 시도
+        let appOpened = false;
+
+        // 앱 열기 시도 실패 시 2초 후 스토어로 이동
+        setTimeout(function () {
+          if (!appOpened) {
+            window.location.href =
+              "https://play.google.com/store/apps/details?id=com.wany.inding";
+          }
+        }, 2000);
+
+        // 앱 열기 시도
+        try {
+          window.location.href = "inding://app";
+
+          // 페이지 가시성 변경 감지 (앱이 열린 경우)
+          document.addEventListener("visibilitychange", function () {
+            if (document.hidden) {
+              appOpened = true;
+            }
+          });
+        } catch (e) {
+          // 오류 발생 시 바로 스토어로 이동
+          window.location.href =
+            "https://play.google.com/store/apps/details?id=com.wany.inding";
+        }
+      } else if (isIOS) {
+        // iOS 기기인 경우
+        try {
+          // 앱 열기 시도
+          window.location.href = "inding://app"; // iOS URL 스키마 (미설정 시 작동 안함)
+
+          // 앱 열기 실패 시 앱스토어로 이동
+          setTimeout(function () {
+            window.location.href = "https://apps.apple.com/app/id6745476104";
+          }, 2000);
+        } catch (e) {
+          // 오류 발생 시 바로 앱스토어로 이동
+          window.location.href = "https://apps.apple.com/app/id6745476104";
+        }
+      } else {
+        // 데스크톱인 경우
+        window.location.href = "https://www.indingkorea.kr";
+      }
+    </script>
+  </head>
+  <body>
+    <h1>INDING - K-Beauty App</h1>
+    <p>앱으로 리디렉션 중입니다... 잠시만 기다려주세요.</p>
+  </body>
+</html>
